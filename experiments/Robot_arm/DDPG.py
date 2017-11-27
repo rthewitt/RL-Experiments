@@ -24,8 +24,8 @@ import shutil
 from arm_env import ArmEnv
 
 
-np.random.seed(1)
-tf.set_random_seed(1)
+np.random.seed(10)
+tf.set_random_seed(10)
 
 MAX_EPISODES = 600
 MAX_EP_STEPS = 200

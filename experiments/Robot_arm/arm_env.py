@@ -80,7 +80,7 @@ class ArmEnv(object):
 
     def render(self):
         if self.viewer is None:
-            self.viewer = Viewer(*self.viewer_xy, self.arm_info, self.point_info, self.point_l, self.mouse_in)
+            self.viewer = Viewer(*self.viewer_xy, arm_info=self.arm_info, point_info=self.point_info, point_l=self.point_l, mouse_in=self.mouse_in)
         self.viewer.render()
 
     def sample_action(self):
@@ -162,8 +162,9 @@ class Viewer(pyglet.window.Window):
                      self.point_info[0] - point_l, self.point_info[1] + point_l)
         self.point.vertices = point_box
 
-        arm1_coord = (*self.center_coord, *(self.arm_info[0, 2:4]))  # (x0, y0, x1, y1)
-        arm2_coord = (*(self.arm_info[0, 2:4]), *(self.arm_info[1, 2:4]))  # (x1, y1, x2, y2)
+        arm1_coord = tuple(self.center_coord) + tuple(self.arm_info[0, 2:4])  # (x0, y0, x1, y1)
+        arm2_coord = tuple(self.arm_info[0, 2:4]) + tuple(self.arm_info[1, 2:4])  # (x1, y1, x2, y2)
+
         arm1_thick_rad = np.pi / 2 - self.arm_info[0, 1]
         x01, y01 = arm1_coord[0] - np.cos(arm1_thick_rad) * self.bar_thc, arm1_coord[1] + np.sin(
             arm1_thick_rad) * self.bar_thc
